@@ -1,0 +1,52 @@
+<app-header></app-header>
+<div class="container">
+    <div class="confirmation-container">
+        <h1 class="login-header">DANH SÁCH SINH VIÊN</h1>
+    </div>
+    <!--  -->
+    <div class="form-search">
+        <input type="text"  class="form-control"  placeholder="Tìm kiếm...">
+    </div>
+    <!--  -->
+    <div class="row">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col" class="text-start">Tên sinh viên</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Điện thoại</th>
+                    <th scope="col">Ngày sinh</th>
+                    <th scope="col">Giới tính</th>
+                    <th scope="col">Quê quán</th>
+                  </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let st of students">
+                    <td>{{st.id}}</td>
+                    <!-- <td>{{i + 1}}</td> -->
+                    <td>
+                        <img src="https://cf.quizizz.com/join/img/avatars/tablet_lg/monster15.png" alt="" alt="Day la anh dai dien"class="product-image">
+                    </td>
+                    <td>{{st.fullname}}</td>
+                    <td>{{st.email}}</td>
+                    <td>{{st.phone}}</td>
+                    <td>{{st.dob}}</td>
+                    <td>{{st.gender ? 'Nam' : 'Nữ'}}</td>
+                    <td>{{st.district}}</td>
+                    <td>
+                        <tr>
+                            <button type="button" class="btn btn-warning" (click)="updateStudent(st.id)">Sửa</button> |
+                            <button type="button" class="btn btn-danger" (click)="deleteStudent(st.id)">Xoá</button>
+                        </tr>
+                    </td>
+                    <div class="divider-nospace"></div>
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="text-center mt-3">
+           <a class="btn btn-gradient mt-3" type="button">Thêm SV khác</a>
+        </div> 
+    </div>    
