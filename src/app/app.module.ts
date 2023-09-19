@@ -8,6 +8,7 @@ import { StudentAddComponent } from './student-add/student-add.component';
 import { PathComponent } from './path/path.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StudentUpdateComponent } from './student-update/student-update.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 const routes: Routes = [
   {path: "list", component: StudensListComponent},
@@ -30,6 +31,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgxPaginationModule
   ],
   providers: [],
   bootstrap: [PathComponent]

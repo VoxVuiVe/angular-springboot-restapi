@@ -1,50 +1,62 @@
 <app-header></app-header>
 <div class="container modal-content modal-dialog" style="padding: 0;">
     <div class="row">
-        <form (ngSubmit)="saveStudent()" >
+        <form (ngSubmit)="saveStudent()" [formGroup]="validateForm">
             <div class="login-form mx-auto">
                 <h2 class="login-header">Thêm sinh viên</h2>
                 <div class="mt-4"></div>
-                <!-- <div class="form-group password-field">
-                    <label for="text">Ảnh sinh viên:</label>
-                    <input type="file" formControlName="image" id="image" class="form-control" >
-                    <div class="divider-nospace"></div>
-                </div> -->
-                <div class="mt-4"></div>
                 <div class="form-group password-field">
                     <label for="text">Tên sinh viên:</label>
-                    <input type="text" class="form-control" [(ngModel)]="students.fullname" [ngModelOptions]="{standalone: true}">
+                    <input type="text" class="form-control" formControlName="fullname" [(ngModel)]="students.fullname" required > <!-- [ngModelOptions]="{standalone: true}"-->
                     <div class="divider-nospace"></div>
+                    <small *ngIf="validateForm.get('fullname')?.hasError('required') && validateForm.get('fullname')?.touched" class="error">
+                        Vui lòng điền tên
+                    </small>
                 </div>
                 <div class="mt-4"></div>
                 <div class="form-group password-field">
                     <label for="text">Email:</label>
-                    <input type="email" class="form-control" [(ngModel)]="students.email" [ngModelOptions]="{standalone: true}">
+                    <input type="email" class="form-control" formControlName="email" [(ngModel)]="students.email" required> <!--[ngModelOptions]="{standalone: true}"-->
                     <div class="divider-nospace"></div>
+                    <small *ngIf="validateForm.get('email')?.hasError('email') && validateForm.get('email')?.touched" class="error">
+                        Nhập đúng định dạng email
+                    </small>
+                    <small *ngIf="validateForm.get('email')?.hasError('required') && validateForm.get('email')?.touched" class="error">
+                        Vui lòng điền email
+                    </small>
                 </div>
                 <div class="mt-4"></div>
                 <div class="form-group password-field">
                     <label for="text">Số điện thoại:</label>
-                    <input type="tel" class="form-control" [(ngModel)]="students.phone" [ngModelOptions]="{standalone: true}">
+                    <input type="tel" class="form-control" formControlName="phone" [(ngModel)]="students.phone" required> <!--[ngModelOptions]="{standalone: true}"-->
                     <div class="divider-nospace"></div>
+                    <small *ngIf="validateForm.get('phone')?.hasError('pattern') && validateForm.get('phone')?.touched" class="error">
+                        Vui lòng điển đủ 10 số!
+                    </small>
+                    <small *ngIf="validateForm.get('phone')?.hasError('required') && validateForm.get('phone')?.touched" class="error">
+                        Vui lòng điền số điện thoại
+                    </small>
                 </div>
                 <div class="mt-4"></div>
                 <div class="mt-4"></div>
                 <div class="form-group password-field">
                     <label for="text">Ngày sinh:</label>
-                    <input type="date" class="form-control" [(ngModel)]="students.dob" [ngModelOptions]="{standalone: true}">
+                    <input type="date" class="form-control" formControlName="dob" [(ngModel)]="students.dob" required > <!--[ngModelOptions]="{standalone: true}"-->
                     <div class="divider-nospace"></div>
+                    <small *ngIf="validateForm.get('dob')?.hasError('required') && validateForm.get('dob')?.touched" class="error">
+                        Vui lòng điền dob
+                    </small>
                 </div>
                 <div class="mt-4"></div>
                 <div class="form-group password-field">
                     <label for="text">Giới tính:</label>
                     <div class="mt-3"></div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input custom-radio" type="radio" id="male" name="gender"  value="true" [(ngModel)]="students.gender" [ngModelOptions]="{standalone: true}">
+                      <input class="form-check-input custom-radio" type="radio" id="male" name="gender" value="Nam" [(ngModel)]="students.gender" [ngModelOptions]="{standalone: true}"> <!--[ngModelOptions]="{standalone: true}"-->
                       <label class="form-check-label" for="male">Nam</label>
                     </div>
                     <div class="form-check form-check-inline">
-                      <input class="form-check-input custom-radio" type="radio" id="female" name="gender" value="false"[(ngModel)]="students.gender" [ngModelOptions]="{standalone: true}">
+                      <input class="form-check-input custom-radio" type="radio" id="female" name="gender" value="Nữ" [(ngModel)]="students.gender" [ngModelOptions]="{standalone: true}"> <!--[ngModelOptions]="{standalone: true}"-->
                       <label class="form-check-label" for="female">Nữ</label>
                     </div>
                     <div class="mt-3"></div>
@@ -54,21 +66,24 @@
                 <div class="">
                     <label for="text">Quê quán:</label>
                     <div class="mt-3"></div>
-                    <select name="city" id="city" class="form-control" [(ngModel)]="students.district" [ngModelOptions]="{standalone: true}">
-                        <option value="" disabled>Chọn quê quán</option>
-                          <option value="Hải Châu">Hải Châu</option>
-                          <option value="Thanh Khê">Thanh Khê</option>
-                          <option value="Liên Chiểu">Liên Chiểu</option>
-                          <option value="Sơn Trà">Sơn Trà</option>
-                          <option value="Ngũ Hành Sơn">Ngũ Hành Sơn</option>
-                          <option value="Cẩm Lệ">Cẩm Lệ</option>
-                          <option value="Hòa Vang">Hòa Vang</option>
-                      </select>
+                    <select name="city" id="city" class="form-control" formControlName="district" [(ngModel)]="students.district" required> <!--[ngModelOptions]="{standalone: true}"-->
+                        <option value="" disabled selected>Chọn quê quán</option>
+                        <option value="Hải Châu">Hải Châu</option>
+                        <option value="Thanh Khê">Thanh Khê</option>
+                        <option value="Liên Chiểu">Liên Chiểu</option>
+                        <option value="Sơn Trà">Sơn Trà</option>
+                        <option value="Ngũ Hành Sơn">Ngũ Hành Sơn</option>
+                        <option value="Cẩm Lệ">Cẩm Lệ</option>
+                        <option value="Hòa Vang">Hòa Vang</option>
+                    </select>
+                    <small *ngIf="validateForm.get('district')?.hasError('required') && validateForm.get('district')?.touched" class="error">
+                        Vui lòng điền quê quán
+                    </small>
                     <div class="mt-3"></div>
                     <div class="divider-nospace"></div>
-                  </div>
-                  <div class="mt-4"></div>
-                  <input type="submit" class="login-button" value="Lưu">
+                </div>
+                <div class="mt-4"></div>
+                <input type="submit" class="login-button" value="Lưu" [disabled]="!validateForm.valid">
             </div>
         </form>
     </div>

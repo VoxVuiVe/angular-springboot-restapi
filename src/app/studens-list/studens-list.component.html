@@ -5,7 +5,7 @@
     </div>
     <!--  -->
     <div class="form-search">
-        <input type="text"  class="form-control"  placeholder="Tìm kiếm...">
+        <input type="text"  class="form-control" [(ngModel)]="searchStudents" (ngModelChange)="search()" placeholder="Tìm kiếm...">
     </div>
     <!--  -->
     <div class="row">
@@ -13,8 +13,8 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Ảnh</th>
-                    <th scope="col" class="text-start">Tên sinh viên</th>
+                    <th scope="col">Ảnh</th> <!-- class="text-start"-->
+                    <th scope="col">Tên sinh viên</th>
                     <th scope="col">Email</th>
                     <th scope="col">Điện thoại</th>
                     <th scope="col">Ngày sinh</th>
@@ -23,7 +23,7 @@
                   </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let st of students">
+                <tr *ngFor="let st of students | paginate:{itemsPerPage:6,currentPage:page,totalItems:totalLength} ">
                     <td>{{st.id}}</td>
                     <!-- <td>{{i + 1}}</td> -->
                     <td>
@@ -33,7 +33,7 @@
                     <td>{{st.email}}</td>
                     <td>{{st.phone}}</td>
                     <td>{{st.dob}}</td>
-                    <td>{{st.gender ? 'Nam' : 'Nữ'}}</td>
+                    <td>{{st.gender}}</td>
                     <td>{{st.district}}</td>
                     <td>
                         <tr>
@@ -47,6 +47,9 @@
             </tbody>
         </table>
         <div class="text-center mt-3">
-           <a class="btn btn-gradient mt-3" type="button">Thêm SV khác</a>
+            <pagination-controls (pageChange)="page=$event"></pagination-controls>
+        </div> 
+        <div class="text-center mt-3">
+           <a class="btn btn-gradient mt-3" type="button" routerLink="/add">Thêm SV khác</a>
         </div> 
     </div>    

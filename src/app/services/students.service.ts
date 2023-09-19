@@ -8,6 +8,10 @@ import {map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class StudentsService {
+  // private students: Students[] = [];
+  // getAll(): Students[] {
+  //   return this.students
+  // }
 
   private getURL = "http://localhost:8080/api/v1/students";
 
@@ -31,5 +35,29 @@ export class StudentsService {
 
   deleteStudent(id: number): Observable<Object> {
     return this.httpClient.delete(`${this.getURL}/${id}`);
+  }
+
+  searchStudents(searchString: string): Observable<Students[]> {
+    if (searchString.trim() === '') {
+      // If the search string is empty, return all students
+      return this.getAllStudent();
+    } else {
+      // If there is a search string, filter students based on the criteria
+      return this.getAllStudent().pipe(
+        map((students: Students[]) =>
+          students.filter(student => {
+            const searchStudents = searchString.toLowerCase();
+            return (
+              student.fullname.toLowerCase().includes(searchStudents) ||
+              student.email.toLowerCase().includes(searchStudents) ||
+              student.phone.toString().toLowerCase().includes(searchStudents) ||
+              student.district.toLowerCase().includes(searchStudents) ||
+              student.dob.toLowerCase().includes(searchStudents) ||
+              student.gender.toLowerCase().includes(searchStudents)
+            );
+          })
+        )
+      );
+    }
   }
 }
